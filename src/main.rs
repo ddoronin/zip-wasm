@@ -25,7 +25,7 @@ pub extern "C" fn dealloc(ptr: *mut c_void, cap: usize) {
 }
 
 #[no_mangle]
-pub extern "C" fn gzCompress(pointer: *mut u8, byte_size: usize, meta: *mut usize) -> *mut c_void {
+pub extern "C" fn compress(pointer: *mut u8, byte_size: usize, meta: *mut usize) -> *mut c_void {
     let data = unsafe { slice::from_raw_parts_mut(pointer, byte_size) };
     let meta_data = unsafe { slice::from_raw_parts_mut(meta, 1) };
 
@@ -40,7 +40,7 @@ pub extern "C" fn gzCompress(pointer: *mut u8, byte_size: usize, meta: *mut usiz
 }
 
 #[no_mangle]
-pub extern "C" fn gzDecompress(pointer: *mut u8, byte_size: usize, meta: *mut usize) -> *mut c_void {
+pub extern "C" fn decompress(pointer: *mut u8, byte_size: usize, meta: *mut usize) -> *mut c_void {
     let encoded_data = unsafe { slice::from_raw_parts_mut(pointer, byte_size) };
     let meta_data = unsafe { slice::from_raw_parts_mut(meta, 1) };
 

@@ -1,2 +1,2 @@
 export { ICompressor } from './client/ICompressor';
-export { startup } from './client/startup';
+export { startup as zip } from './client/startup';

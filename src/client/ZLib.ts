@@ -5,6 +5,23 @@ export class ZLib implements ICompressor {
     constructor(private api: IProcessApi) {
     }
 
+    alloc(data: ArrayBuffer): ArrayBuffer {
+        try {
+            const data_size = data.byteLength;
+            const data_pointer = this.api.alloc(data_size);
+
+            const data_view = new DataView(this.api.memory.buffer, data_pointer, data_size);
+            const from = new DataView(data);
+            for(let i = 0; i < data_size; i++) {
+                data_view.setUint8(i, from.getUint8(i));
+            }
+            return data_view.buffer;
+        }
+        finally {
+            // TODO: dealloc
+        }
+    }
+
     compress(data: ArrayBuffer) {
         try {
             const data_size = data.byteLength;
