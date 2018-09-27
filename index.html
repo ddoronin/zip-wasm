@@ -1,0 +1,50 @@
+<!doctype html>
+<head></head>
+<body>
+    ZIP-WASM
+    <script type="text/javascript">
+        fetch('./target/wasm32-unknown-unknown/debug/zip-wasm.wasm')
+            .then(response => response.arrayBuffer())
+            .then(bytes => WebAssembly.instantiate(bytes, {}))
+            .then(({instance}) => {
+                const {
+                    alloc,
+                    dealloc,
+                    gzCompress,
+                    gzDecompress,
+                    memory
+                } = instance.exports;
+
+                console.log('wasm loaded!');
+
+                const data_size = 2;
+                const data_pointer = alloc(data_size);
+                const dv = new DataView(memory.buffer, data_pointer, data_size);
+                dv.setUint8(0, 123);
+                dv.setUint8(1, 222);
+
+                const meta_size = 4;
+                const meta_pointer = alloc(meta_size);
+
+                const compressed_pointer = gzCompress(data_pointer, data_size, meta_pointer);
+
+                const meta_data_view = new DataView(memory.buffer, meta_pointer, meta_size);
+                const compressed_size = meta_data_view.getUint16(0);
+                console.log('compressed_size ', compressed_size);
+
+                const compressed_data_view = new DataView(memory.buffer, compressed_pointer, compressed_size);
+                console.log('compressed_data_view', compressed_data_view);
+
+                // --------------------- //
+                const decompressed_pointer = gzDecompress(compressed_pointer, compressed_size, meta_pointer);
+
+                const decompressed_size = meta_data_view.getUint16(0);
+                console.log('decompressed_size ', decompressed_size);
+
+                const decompressed_data_view = new DataView(memory.buffer, decompressed_pointer, decompressed_size);
+                console.log('decompressed_data_view', decompressed_data_view);
+                console.log(decompressed_data_view.setUint8(0));
+                console.log(decompressed_data_view.setUint8(1));
+            });
+    </script>
+</body>
