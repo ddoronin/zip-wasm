@@ -1,0 +1,22 @@
+{
+  "name": "zip-wasm",
+  "version": "0.0.1",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "compile": "ts-node ./src/index.ts",
+    "release:wasm": "cargo update && cargo build --target wasm32-unknown-unknown --release --out-dir lib -Z unstable-options",
+    "minify:wasm": "wasm-gc lib/zip-wasm.wasm lib/zip-min.wasm",
+    "pre-publish": "rm -rf lib && tsc --declaration -p ./tsconfig.json --outDir lib/ && yarn release:wasm && yarn minify:wasm"
+  },
+  "repository": "git@github.com:ddoronin/zip-wasm.git",
+  "author": "<doronindm@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/webassembly-js-api": "^0.0.1",
+    "typescript": "^3.0.3"
+  },
+  "devDependencies": {
+    "ts-node": "^7.0.1"
+  }
+}

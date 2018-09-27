@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "removeComments": false,
+        "module": "commonjs",
+        "target": "es6",
+        "alwaysStrict": true,
+        "lib": [
+            "dom",
+            "es7",
+            "es6"
+        ]
+    },
+    "include": [
+        "./src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
