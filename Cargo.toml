@@ -1,0 +1,7 @@
+[package]
+name = "zip-wasm"
+version = "0.0.1"
+authors = ["dima <doronindm@gmail.com>"]
+
+[dependencies]
+libflate = "0.1"
