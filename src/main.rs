@@ -5,7 +5,7 @@ use std::io::Write;
 use std::mem;
 use std::slice;
 use std::os::raw::c_void;
-use libflate::gzip::{Encoder, Decoder};
+use libflate::zlib::{Encoder, Decoder};
 
 fn main() {}
 
