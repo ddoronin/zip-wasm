@@ -62,3 +62,4 @@ typings/
 
 /target
 **/*.rs.bk
+lib
